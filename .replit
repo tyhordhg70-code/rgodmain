@@ -1,0 +1,39 @@
+modules = ["nodejs-24", "postgresql-16"]
+
+[[artifacts]]
+id = "artifacts/api-server"
+
+[[artifacts]]
+id = "artifacts/mockup-sandbox"
+
+[deployment]
+router = "application"
+deploymentTarget = "autoscale"
+
+[deployment.postBuild]
+args = ["pnpm", "store", "prune"]
+env = { "CI" = "true" }
+
+[workflows]
+runButton = "Project"
+
+[agent]
+stack = "PNPM_WORKSPACE"
+expertMode = true
+
+[postMerge]
+path = "scripts/post-merge.sh"
+timeoutMs = 20000
+
+[userenv]
+
+[userenv.shared]
+ENCRYPTION_KEY = "1e36ff0a31606894e320b7cff41d995382d42123b7a5a112659f5e5bbb81d470"
+DASHBOARD_PASSWORD_HASH = "$2b$12$9trTD4i4A.zLM3IPEl.Jy.uSbBladSli0JfDcxPvllpWeZ99DZpEO"
+DOLPHIN_API_URL = "http://64.188.112.247:3001"
+PROXY_HOST = "residential.spyderproxy.com"
+PROXY_PORT = "7777"
+RELAY_URL = "http://64.188.112.247:4001"
+
+[nix]
+channel = "stable-25_05"
